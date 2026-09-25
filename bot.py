@@ -6,7 +6,7 @@ from flask import Flask, request
 # 🔴 Direct credentials (testing ke liye)
 BOT_TOKEN = "8804895685:AAGF9vdkKm3zALWagVJDinUIvzX1yy0IgQQ"
 TWILIO_SID = "AC2163cc7ccb0eef66a85f946de829e929"
-TWILIO_AUTH = "7f6206005a73184fea24641f31ec4929"
+TWILIO_AUTH = "bb07bfae0d34b9277bfbdba6a3665d60"
 
 # Railway domain
 RAILWAY_DOMAIN = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
