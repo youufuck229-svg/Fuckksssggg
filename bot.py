@@ -3,12 +3,12 @@ import telebot
 import requests
 from flask import Flask, request
 
-# 🔴 Direct credentials daal diye (testing ke liye)
+# 🔴 Direct credentials (testing ke liye)
 BOT_TOKEN = "8804895685:AAGF9vdkKm3zALWagVJDinUIvzX1yy0IgQQ"
 TWILIO_SID = "AC2163cc7ccb0eef66a85f946de829e929"
 TWILIO_AUTH = "7f6206005a73184fea24641f31ec4929"
 
-# Railway domain (agar Railway pe host kar rahe ho)
+# Railway domain
 RAILWAY_DOMAIN = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
 WEBHOOK_URL = f"https://{RAILWAY_DOMAIN}/webhook" if RAILWAY_DOMAIN else None
 
@@ -56,11 +56,11 @@ def send(msg):
     try:
         res = requests.post(url, data=payload, auth=(TWILIO_SID, TWILIO_AUTH))
         if res.status_code == 201:
-            bot.reply_to(msg, "Message bhej diya!")
+            bot.reply_to(msg, "✅ Message bhej diya!")
         else:
-            bot.reply_to(msg, f"Twilio Error: {res.json().get('message')}")
+            bot.reply_to(msg, f"❌ Twilio Error: {res.json().get('message')}")
     except Exception as e:
-        bot.reply_to(msg, f"Error: {e}")
+        bot.reply_to(msg, f"❌ Error: {e}")
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -74,9 +74,19 @@ def webhook():
 def health():
     return "OK", 200
 
-if __name__ == "__main__":
+# 🔥 Gunicorn ke saath webhook set karne ke liye startup pe chalao
+def set_webhook_once():
     if WEBHOOK_URL:
-        bot.remove_webhook()
-        bot.set_webhook(url=WEBHOOK_URL)
+        try:
+            bot.remove_webhook()
+            bot.set_webhook(url=WEBHOOK_URL)
+            print(f"Webhook set to {WEBHOOK_URL}")
+        except Exception as e:
+            print(f"Webhook set error: {e}")
+
+# Gunicorn import karte hi webhook set ho jayega
+set_webhook_once()
+
+if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
