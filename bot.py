@@ -4,7 +4,7 @@ import requests
 from flask import Flask, request
 
 # 🔴 Direct credentials (testing ke liye)
-BOT_TOKEN = "8804895685:AAGF9vdkKm3zALWagVJDinUIvzX1yy0IgQQ"
+BOT_TOKEN = "8781133241:AAFIv1nuox_BNqOrnWVsRbFNtr6ymld8Kxg"
 TWILIO_SID = "AC2163cc7ccb0eef66a85f946de829e929"
 TWILIO_AUTH = "bb07bfae0d34b9277bfbdba6a3665d60"
 
